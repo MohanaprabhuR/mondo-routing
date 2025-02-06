@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-export default async function Header() {
+
+export default function Header() {
   return (
     <header className="header fixed top-0 z-50 w-full transition-all ease-in-out bg-[rgba(0,0,0,0.9)] py-3">
       <nav className="mx-auto flex h-10 w-full items-center justify-between px-4 xl:max-w-[1280px]">

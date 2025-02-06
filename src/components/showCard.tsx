@@ -7,7 +7,7 @@ const ShowCard = ({ allshows }) => {
     <div className="transition-transform duration-200 hover:scale-105">
       <Link href={`/shows/${allshows.id}`}>
         <Image
-          src={allshows.poster?.src || "/fallback-image.jpg"}
+          src={allshows.poster?.src || "/video-poster-placeholder-image.jpg"}
           alt={allshows.name}
           width={250}
           height={300}

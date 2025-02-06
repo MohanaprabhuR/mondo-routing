@@ -10,5 +10,9 @@ export default async function InterceptedShowPage({
   );
   const show = await data.json();
 
-  return <Showdetails show={show.data} />;
+  return (
+    <div className="bg-black bg-opacity-80">
+      <Showdetails show={show.data} />
+    </div>
+  );
 }
