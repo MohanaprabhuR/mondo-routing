@@ -1,14 +1,17 @@
 import React from "react";
 import ShowCard from "@/components/showCard";
 
+interface ShowAttributes {
+  name: string;
+  title?: string;
+  description?: string;
+  poster?: { data: { attributes: { url: string; alternativeText: string } } }; // Add poster type
+  [key: string]: unknown;
+}
+
 interface Show {
   id: number;
-  attributes: {
-    name: string;
-    title?: string;
-    description?: string;
-    [key: string]: unknown;
-  };
+  attributes: ShowAttributes;
 }
 
 interface ShowsResponse {
@@ -19,8 +22,6 @@ interface ShowsResponse {
 export default async function Home() {
   const data = await fetch(`${process.env.API_URL}/api/shows?populate=*`);
   const shows: ShowsResponse = await data.json();
-
-  console.log("shows", shows);
 
   return (
     <div className="mx-auto w-full max-w-[1142px] px-4 max-xl:max-w-[960px] max-lg:max-w-[720px] max-md:max-w-[540px] max-sm:max-w-full max-sm:px-0">
