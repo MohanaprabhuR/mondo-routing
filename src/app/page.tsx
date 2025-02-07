@@ -1,9 +1,24 @@
 import React from "react";
 import ShowCard from "@/components/showCard";
 
+interface Show {
+  id: number;
+  attributes: {
+    name: string;
+    title?: string;
+    description?: string;
+    [key: string]: unknown;
+  };
+}
+
+interface ShowsResponse {
+  data: Show[];
+  meta?: unknown;
+}
+
 export default async function Home() {
   const data = await fetch(`${process.env.API_URL}/api/shows?populate=*`);
-  const shows = await data.json();
+  const shows: ShowsResponse = await data.json();
 
   console.log("shows", shows);
 

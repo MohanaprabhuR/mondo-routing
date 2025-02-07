@@ -1,15 +1,11 @@
 import ShowModal from "@/components/modal/showmodal";
 
-interface PageProps {
-  params: {
-    id: string;
-  };
-}
+type Params = Promise<{ id: string }>;
 
-export default async function InterceptedShowPage({ params }: PageProps) {
-  const data = await fetch(
-    `${process.env.API_URL}/api/shows/${params.id}?populate=*`
-  );
+export default async function Page(props: { params: Params }) {
+  const { id } = await props.params;
+
+  const data = await fetch(`${process.env.API_URL}/api/shows/${id}?populate=*`);
   const show = await data.json();
 
   return <ShowModal show={show.data} />;

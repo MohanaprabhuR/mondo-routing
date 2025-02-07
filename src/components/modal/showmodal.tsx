@@ -11,7 +11,50 @@ import { useRouter } from "next/navigation";
 import _ from "lodash";
 import { useState, useMemo } from "react";
 
-export default function ShowModal({ show }) {
+interface Video {
+  id: string;
+  name: string;
+  description: string;
+  season: string;
+  poster: string;
+  original_air_date: string;
+}
+
+interface Genre {
+  id: string;
+  name: string;
+}
+
+interface CastMember {
+  name: string;
+  role?: string;
+}
+
+interface Banner {
+  src: string;
+  alt?: string;
+}
+
+interface Poster {
+  src: string;
+  alt?: string;
+}
+
+interface Show {
+  name: string;
+  description: string;
+  banner: Banner;
+  poster: Poster;
+  genres: Genre[];
+  videos: Video[];
+  cast_and_crew: CastMember[];
+}
+
+interface ShowModalProps {
+  show: Show;
+}
+
+export default function ShowModal({ show }: ShowModalProps) {
   const router = useRouter();
 
   const groupedVideos = useMemo(() => {
@@ -22,7 +65,7 @@ export default function ShowModal({ show }) {
     return _.sortBy(Object.keys(groupedVideos));
   }, [groupedVideos]);
 
-  const [selectedSeason, setSelectedSeason] = useState(seasons[0]);
+  const [selectedSeason, setSelectedSeason] = useState<string>(seasons[0]);
 
   return (
     <Dialog open onOpenChange={() => router.back()}>
@@ -58,7 +101,7 @@ export default function ShowModal({ show }) {
                     {show?.name}
                   </h2>
                   <ul className="flex pb-4">
-                    {show.genres.map((genre, index) => (
+                    {show.genres.map((genre: Genre, index: number) => (
                       <li key={genre.id}>
                         {genre.name}
                         {index !== show.genres.length - 1 && " · "}
@@ -71,12 +114,14 @@ export default function ShowModal({ show }) {
                   <div>
                     <p className="text-gray-600 pb-3">Cast & Crew</p>
                     <ul className="flex flex-wrap gap-2">
-                      {show.cast_and_crew.map((item, index) => (
-                        <li key={index} className="text-gray-100">
-                          {item.name}
-                          {index !== show.cast_and_crew.length - 1 && ","}
-                        </li>
-                      ))}
+                      {show.cast_and_crew.map(
+                        (item: CastMember, index: number) => (
+                          <li key={index} className="text-gray-100">
+                            {item.name}
+                            {index !== show.cast_and_crew.length - 1 && ","}
+                          </li>
+                        )
+                      )}
                     </ul>
                   </div>
                 </div>
@@ -95,7 +140,7 @@ export default function ShowModal({ show }) {
                   <select
                     value={selectedSeason}
                     onChange={(e) => setSelectedSeason(e.target.value)}
-                    className="p-3 w-40 block  text-black rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    className="p-3 w-40 block text-black rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                   >
                     {seasons.map((season) => (
                       <option key={season} value={season}>
@@ -111,37 +156,39 @@ export default function ShowModal({ show }) {
 
                 <div className="mt-6">
                   <ul className="">
-                    {groupedVideos[selectedSeason]?.map((video, index) => (
-                      <li
-                        key={video.id}
-                        className="flex items-center gap-[0_24px] mb-6"
-                      >
-                        <Image
-                          src={
-                            video.poster ||
-                            "/video-poster-placeholder-image.jpg"
-                          }
-                          alt={video.name}
-                          width={184}
-                          height={275}
-                          className="object-cover rounded transition-transform duration-200 group-hover:scale-105"
-                        />
-                        <div className="">
-                          <h2 className="text-gray-100 text-xl pb-1 flex items-center gap-1">
-                            <span className="text-base text-gray-600">
-                              {index + 1}
-                            </span>
-                            {video.name}
-                          </h2>
-                          <p className="text-gray-400 text-sm pb-1">
-                            {video.description}
-                          </p>
-                          <p className="text-gray-400 text-sm pb-1">
-                            {video.original_air_date}
-                          </p>
-                        </div>
-                      </li>
-                    ))}
+                    {groupedVideos[selectedSeason]?.map(
+                      (video: Video, index: number) => (
+                        <li
+                          key={video.id}
+                          className="flex items-center gap-[0_24px] mb-6"
+                        >
+                          <Image
+                            src={
+                              video.poster ||
+                              "/video-poster-placeholder-image.jpg"
+                            }
+                            alt={video.name}
+                            width={184}
+                            height={275}
+                            className="object-cover rounded transition-transform duration-200 group-hover:scale-105"
+                          />
+                          <div className="">
+                            <h2 className="text-gray-100 text-xl pb-1 flex items-center gap-1">
+                              <span className="text-base text-gray-600">
+                                {index + 1}
+                              </span>
+                              {video.name}
+                            </h2>
+                            <p className="text-gray-400 text-sm pb-1">
+                              {video.description}
+                            </p>
+                            <p className="text-gray-400 text-sm pb-1">
+                              {video.original_air_date}
+                            </p>
+                          </div>
+                        </li>
+                      )
+                    )}
                   </ul>
                 </div>
               </div>
