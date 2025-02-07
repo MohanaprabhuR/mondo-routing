@@ -1,24 +1,20 @@
 import ShowModal from "@/components/modal/showmodal";
-interface Show {
-  id: string;
-}
-
 interface ShowResponse {
   data: Show;
 }
-
-interface InterceptedPageProps {
-  params: {
-    id: string;
-  };
-  searchParams: { [key: string]: string | string[] | undefined };
+interface Show {
+  id: string;
+}
+interface PageProps {
+  params: Promise<{ id: string }>;
+  searchParams?: { [key: string]: string | string[] | undefined };
 }
 
-export default async function InterceptedShowPage({
-  params,
-}: InterceptedPageProps) {
+export default async function InterceptedShowPage({ params }: PageProps) {
+  const resolvedParams = await params;
+
   const data = await fetch(
-    `${process.env.API_URL}/api/shows/${params.id}?populate=*`
+    `${process.env.API_URL}/api/shows/${resolvedParams.id}?populate=*`
   );
   const show: ShowResponse = await data.json();
 
