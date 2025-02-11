@@ -23,7 +23,11 @@ export default function Home() {
   };
 
   // Queries
-  const query = useQuery({ queryKey: ["shows"], queryFn: fetchData });
+  const query = useQuery({
+    queryKey: ["shows"],
+    queryFn: fetchData,
+    staleTime: 5 * 1000,
+  });
 
   const { data } = query;
 
