@@ -1,7 +1,5 @@
 import Showdetails from "@/components/showdetails";
-
 type Params = Promise<{ id: string }>;
-
 export default async function Page(props: { params: Params }) {
   const { id } = await props.params;
 

@@ -47,6 +47,7 @@ interface ShowDetailsProps {
 }
 
 export default function ShowDetails({ show }: ShowDetailsProps) {
+  console.log("showsDetails", show);
   const groupedVideos = useMemo(() => {
     return _.groupBy(show?.videos, "season");
   }, [show?.videos]);
@@ -87,7 +88,7 @@ export default function ShowDetails({ show }: ShowDetailsProps) {
               {show?.name}
             </h2>
             <ul className="flex pb-4">
-              {show.genres.map((genre: Genre, index: number) => (
+              {show?.genres?.map((genre: Genre, index: number) => (
                 <li key={genre.id}>
                   {genre.name}
                   {index !== show.genres.length - 1 && " · "}
@@ -100,7 +101,7 @@ export default function ShowDetails({ show }: ShowDetailsProps) {
             <div>
               <p className="text-gray-600 pb-3">Cast & Crew</p>
               <ul className="flex flex-wrap gap-2">
-                {show.cast_and_crew.map((item: CastMember, index: number) => (
+                {show?.cast_and_crew?.map((item: CastMember, index: number) => (
                   <li key={index} className="text-gray-100">
                     {item.name}
                     {index !== show.cast_and_crew.length - 1 && ","}
@@ -111,8 +112,8 @@ export default function ShowDetails({ show }: ShowDetailsProps) {
           </div>
           <div className="flex-shrink-0">
             <Image
-              src={show.poster?.src}
-              alt={show.name}
+              src={show?.poster?.src}
+              alt={show?.name}
               width={300}
               height={400}
               className="rounded-lg shadow-lg h-[400px] object-cover"
